@@ -3,8 +3,11 @@ package com.example.desafioteste5;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,13 +32,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
         // Inicialização do mapa
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        findViewById(R.id.btnBuscar).setOnClickListener(v -> {
-            String ipAddress = ((EditText) findViewById(R.id.editTextIp)).getText().toString().trim();
+        EditText editTextIp = findViewById(R.id.editTextIp);
+        ImageView imageViewBuscar = findViewById(R.id.imageViewBuscar);
+
+        // Set click listener for the ImageView
+        imageViewBuscar.setOnClickListener(v -> {
+            String ipAddress = editTextIp.getText().toString().trim();
             if (!ipAddress.isEmpty()) {
                 buscarIp(ipAddress);
             }
@@ -59,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (response.isSuccessful() && response.body() != null) {
                     IpApiResult ipApiResult = response.body();
                     exibirInformacoesNoMapa(ipApiResult);
+                    exibirInformacoesDoIp(ipApiResult);
                 } else {
                     Log.e("IpLocatorActivity", "Erro na resposta da API");
                 }
@@ -80,10 +93,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    private void exibirInformacoesDoIp(IpApiResult ipApiResult) {
+        String types = "Continente:\n" +
+                "Country Code:\n" +
+                "País:\n" +
+                "Região:\n" +
+                "Cidade:";
+
+        String results = ipApiResult.getCountry() + "\n" +
+                ipApiResult.getCountryCode() + "\n" +
+                ipApiResult.getRegionName() + "\n" +
+                ipApiResult.getRegion() + "\n" +
+                ipApiResult.getCity();
+
+        TextView textViewIpInfoTypes = findViewById(R.id.textViewIpInfoTipos);
+        TextView textViewIpInfoResults = findViewById(R.id.textViewIpInfoResults);
+
+        textViewIpInfoTypes.setText(types);
+        textViewIpInfoResults.setText(results);
+    }
+
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
     }
+
 
     @Override
     public void onResume() {

@@ -1,34 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!-- Campo de busca de IP (EditText) -->
-    <EditText
-        android:id="@+id/editTextIp"
+
+    <include layout="@layout/custom_toolbar" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Digite o IP a ser pesquisado"
-        android:inputType="text" />
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
 
-    <!-- Botão de busca (Button) -->
-    <Button
-        android:id="@+id/btnBuscar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextIp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Buscar" />
+        <EditText
+            android:id="@+id/editTextIp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_margin="16dp"
+            android:padding="9dp"
+            android:background="@drawable/button"
+            android:hint="Digite o IP"
+            android:inputType="text" />
 
-    <!-- MapView para exibir o mapa -->
+        <!-- ImageView for the Search button -->
+        <ImageView
+            android:id="@+id/imageViewBuscar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/pesquisa"/>
+
+    </LinearLayout>
+
+
+    <!-- MapView para exibir o mapa (occupies half of the screen) -->
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/btnBuscar"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:layout_margin="16dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/textViewIpInfoTipos"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewIpInfoResults"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/ip"
+            android:contentDescription="Imagem 1" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/alvin"
+            android:contentDescription="Imagem 2" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/help"
+            android:contentDescription="Imagem 3" />
+
+    </LinearLayout>
+
+</LinearLayout>
