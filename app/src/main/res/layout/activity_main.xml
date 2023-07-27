@@ -21,9 +21,9 @@
             android:padding="9dp"
             android:background="@drawable/button"
             android:hint="Digite o IP"
-            android:inputType="text" />
+            android:inputType="numberDecimal"
+            android:digits="0123456789." />
 
-        <!-- ImageView for the Search button -->
         <ImageView
             android:id="@+id/imageViewBuscar"
             android:layout_width="30dp"
@@ -34,7 +34,6 @@
     </LinearLayout>
 
 
-    <!-- MapView para exibir o mapa (occupies half of the screen) -->
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -48,7 +47,7 @@
 
     <TextView
         android:id="@+id/textViewIpInfoTipos"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="16sp"
@@ -56,7 +55,7 @@
 
     <TextView
         android:id="@+id/textViewIpInfoResults"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="16sp" />

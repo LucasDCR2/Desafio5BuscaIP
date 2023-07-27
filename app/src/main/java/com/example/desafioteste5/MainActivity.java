@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         EditText editTextIp = findViewById(R.id.editTextIp);
         ImageView imageViewBuscar = findViewById(R.id.imageViewBuscar);
 
-        // Set click listener for the ImageView
+        // click listener ImageView
         imageViewBuscar.setOnClickListener(v -> {
             String ipAddress = editTextIp.getText().toString().trim();
             if (!ipAddress.isEmpty()) {
@@ -62,16 +64,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
 
         IpApiService apiService = retrofit.create(IpApiService.class);
+        String fields = IpApiResult.FIELDS;
 
         // Chamada API
-        Call<IpApiResult> call = apiService.getIpInfo(ipAddress);
+        Call<IpApiResult> call = apiService.getIpInfo(ipAddress, fields);
         call.enqueue(new Callback<IpApiResult>() {
             @Override
             public void onResponse(Call<IpApiResult> call, Response<IpApiResult> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     IpApiResult ipApiResult = response.body();
-                    exibirInformacoesNoMapa(ipApiResult);
-                    exibirInformacoesDoIp(ipApiResult);
+
+                    if (ipExists(ipApiResult)) {
+                        exibirInformacoesNoMapa(ipApiResult);
+                        exibirInformacoesDoIp(ipApiResult);
+                    } else {
+                        Toast.makeText(MainActivity.this, "IP address not found", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Log.e("IpLocatorActivity", "Erro na resposta da API");
                 }
@@ -100,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 "Região:\n" +
                 "Cidade:";
 
-        String results = ipApiResult.getCountry() + "\n" +
+        String results = ipApiResult.getContinentCode()+ "\n" +
                 ipApiResult.getCountryCode() + "\n" +
+                ipApiResult.getCountry() + "\n" +
                 ipApiResult.getRegionName() + "\n" +
-                ipApiResult.getRegion() + "\n" +
                 ipApiResult.getCity();
 
         TextView textViewIpInfoTypes = findViewById(R.id.textViewIpInfoTipos);
@@ -112,6 +120,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         textViewIpInfoTypes.setText(types);
         textViewIpInfoResults.setText(results);
     }
+
+    private boolean ipExists(IpApiResult ipApiResult) {
+        Double latitude = ipApiResult.getLat();
+        Double longitude = ipApiResult.getLon();
+
+        return latitude != null && longitude != null && latitude != 0.0 && longitude != 0.0;
+    }
+
+
 
 
 

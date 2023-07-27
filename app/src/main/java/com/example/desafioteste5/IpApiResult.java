@@ -1,6 +1,8 @@
 package com.example.desafioteste5;
 
 public class IpApiResult {
+
+    public static final String FIELDS = "query,status,country,countryCode,regionName,city,lat,lon,isp,continentCode";
     private String query;
     private String status;
     private String country;
@@ -8,13 +10,10 @@ public class IpApiResult {
     private String region;
     private String regionName;
     private String city;
-    private String zip;
     private double lat;
     private double lon;
-    private String timezone;
     private String isp;
-    private String org;
-    private String as;
+    private String continentCode;
 
     public String getQuery() {
         return query;
@@ -72,13 +71,6 @@ public class IpApiResult {
         this.city = city;
     }
 
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
 
     public double getLat() {
         return lat;
@@ -96,14 +88,6 @@ public class IpApiResult {
         this.lon = lon;
     }
 
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
-    }
-
     public String getIsp() {
         return isp;
     }
@@ -112,20 +96,13 @@ public class IpApiResult {
         this.isp = isp;
     }
 
-    public String getOrg() {
-        return org;
+    public String getContinentCode() {
+        return continentCode;
     }
 
-    public void setOrg(String org) {
-        this.org = org;
+    public void setContinentCode(String continentCode) {
+        this.continentCode = continentCode;
     }
 
-    public String getAs() {
-        return as;
-    }
-
-    public void setAs(String as) {
-        this.as = as;
-    }
 }
 
